@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Google 1998</title>
+  <style>
+    /* Basic page styling */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem 1rem 3rem;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #202124;
+      line-height: 1.5;
+    }
+
+    main {
+      max-inline-size: 960px;
+      margin-inline: auto;
+    }
+
+    /* Colorful 1998-style Google header */
+    header {
+      text-align: center;
+      margin-block-end: 1.5rem;
+    }
+
+    .logo {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: bold;
+      letter-spacing: -1px;
+    }
+
+    .blue { color: #4285f4; }
+    .red { color: #ea4335; }
+    .yellow { color: #fbbc05; }
+    .green { color: #34a853; }
+
+    .year-badge {
+      font-size: 0.95rem;
+      color: #5f6368;
+      margin: 0;
+    }
+
+    /* Search bar layout */
+    search {
+      display: block;
+      margin-block-end: 2rem;
+    }
+
+    .search-form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .search-input {
+      flex: 1 1 280px;
+      max-inline-size: 460px;
+      min-block-size: 48px;
+      padding: 0.6rem 1rem;
+      font: inherit;
+      font-size: max(1rem, 1em);
+      border: 1px solid #767676;
+      border-radius: 24px;
+    }
+
+    .search-button {
+      min-block-size: 48px;
+      padding: 0.6rem 1.4rem;
+      font: inherit;
+      font-size: max(1rem, 1em);
+      font-weight: bold;
+      color: #202124;
+      background-color: #f8f9fa;
+      border: 1px solid #767676;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .search-button:hover {
+      background-color: #eef1f5;
+    }
+
+    .search-input:focus-visible,
+    .search-button:focus-visible {
+      outline: 3px solid #0b57d0;
+      outline-offset: 2px;
+    }
+
+    /* Screen-reader-only label helper */
+    .visually-hidden {
+      position: absolute;
+      clip-path: inset(50%);
+      overflow: hidden;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      border: 0;
+      white-space: nowrap;
+    }
+
+    .hint {
+      text-align: center;
+      color: #5f6368;
+      font-size: 0.9rem;
+      margin-block: 0.75rem 0;
+    }
+
+    /* Two side-by-side result columns */
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .column {
+      background-color: #f8f9fa;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 1rem;
+      min-inline-size: 0;
+    }
+
+    .column h2 {
+      margin: 0 0 0.25rem;
+      font-size: 1.2rem;
+    }
+
+    .column-desc {
+      margin: 0 0 1rem;
+      font-size: 0.85rem;
+      color: #5f6368;
+    }
+
+    /* Result cards */
+    .result-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 6px;
+      padding: 0.85rem;
+    }
+
+    .card-url {
+      margin: 0 0 0.25rem;
+      color: #1a0dab;
+      font-weight: bold;
+      overflow-wrap: anywhere;
+    }
+
+    .card-text {
+      margin: 0 0 0.5rem;
+      font-size: 0.92rem;
+      color: #3c4043;
+    }
+
+    .card-score {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: bold;
+      background-color: #e8f0fe;
+      color: #174ea6;
+    }
+
+    .empty-msg {
+      color: #5f6368;
+      font-size: 0.92rem;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1 class="logo" aria-label="Mini Google 1998">
+        <span class="blue">M</span><span class="red">i</span><span class="yellow">n</span><span class="blue">i</span>
+        <span class="blue">G</span><span class="red">o</span><span class="yellow">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span>
+        <span class="green">1998</span>
+      </h1>
+      <p class="year-badge">AI Lab Search Demo: Word Count vs. PageRank</p>
+    </header>
+
+    <search>
+      <form id="search-form" class="search-form">
+        <label for="query-input" class="visually-hidden">Search word</label>
+        <input
+          id="query-input"
+          class="search-input"
+          type="search"
+          name="q"
+          placeholder="Search a word (try: pizza)"
+          autocorrect="off"
+          autocapitalize="none"
+          spellcheck="false"
+        >
+        <button class="search-button" type="submit">Search</button>
+      </form>
+      <p class="hint">Try searching: <strong>pizza</strong>, <strong>pune</strong>, <strong>food</strong>, or <strong>chai</strong></p>
+    </search>
+
+    <section id="results" class="columns" aria-live="polite" hidden>
+      <div class="column">
+        <h2>Old way</h2>
+        <p class="column-desc">Sorted by how many times the word appears</p>
+        <ol id="old-results" class="result-list"></ol>
+      </div>
+
+      <div class="column">
+        <h2>PageRank way</h2>
+        <p class="column-desc">Sorted by random surfer PageRank (100,000 moves)</p>
+        <ol id="pagerank-results" class="result-list"></ol>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 1. Dataset of web pages (id, url, text, and outgoing links)
+    const pages = [
+      {
+        id: 1,
+        url: "pune-food-guide.com",
+        text: "Where to eat in Pune - vada pav and biryani and pizza",
+        links: [2]
+      },
+      {
+        id: 2,
+        url: "best-pizza-pune.com",
+        text: "Fresh wood-fired pizza made daily - try our cheese pizza",
+        links: [1, 3]
+      },
+      {
+        id: 3,
+        url: "college-canteen-blog.com",
+        text: "Student reviews of canteen food and chai and Friday pizza",
+        links: [2, 4]
+      },
+      {
+        id: 4,
+        url: "pizza-recipes-home.com",
+        text: "Make pizza at home - pizza dough and pizza sauce",
+        links: [2, 5]
+      },
+      {
+        id: 5,
+        url: "cheap-eats-pune.com",
+        text: "Good food under 100 rupees - misal and dosa and pizza slices",
+        links: [2]
+      },
+      {
+        id: 6,
+        url: "pizza-pizza-pizza.com",
+        text: "pizza pizza pizza pizza pizza pizza pizza pizza pizza pizza",
+        links: [1]
+      }
+    ];
+
+    // 2. Calculate PageRank using a random surfer simulation
+    function computePageRank(pageList) {
+      const totalMoves = 100000;
+      const jumpChance = 0.15;
+
+      // Map page IDs to page objects and start visit counts at 0
+      const pageById = {};
+      const visits = {};
+      for (const page of pageList) {
+        pageById[page.id] = page;
+        visits[page.id] = 0;
+      }
+
+      // Start on a random page
+      let current = pageList[Math.floor(Math.random() * pageList.length)];
+
+      // Make 100,000 moves
+      for (let i = 0; i < totalMoves; i++) {
+        if (Math.random() < jumpChance || current.links.length === 0) {
+          // 15% chance: surfer gets bored and jumps to any random page
+          current = pageList[Math.floor(Math.random() * pageList.length)];
+        } else {
+          // 85% chance: surfer clicks one of the current page's links at random
+          const randomLinkIndex = Math.floor(Math.random() * current.links.length);
+          const nextId = current.links[randomLinkIndex];
+          current = pageById[nextId];
+        }
+        visits[current.id] += 1;
+      }
+
+      // Convert visit counts into PageRank percentages
+      for (const page of pageList) {
+        page.pageRank = (visits[page.id] / totalMoves) * 100;
+      }
+    }
+
+    // 3. Count how many times the search word appears (ignoring capital letters)
+    function countWord(text, word) {
+      return text.toLowerCase().split(word).length - 1;
+    }
+
+    // 4. Build one result card safely using DOM elements
+    function renderCards(container, items, getScoreLabel) {
+      container.textContent = "";
+
+      if (items.length === 0) {
+        const msg = document.createElement("li");
+        msg.className = "empty-msg";
+        msg.textContent = "No matching pages found.";
+        container.appendChild(msg);
+        return;
+      }
+
+      for (const item of items) {
+        const li = document.createElement("li");
+        li.className = "card";
+
+        const urlEl = document.createElement("p");
+        urlEl.className = "card-url";
+        urlEl.textContent = item.page.url;
+
+        const textEl = document.createElement("p");
+        textEl.className = "card-text";
+        textEl.textContent = item.page.text;
+
+        const scoreEl = document.createElement("span");
+        scoreEl.className = "card-score";
+        scoreEl.textContent = getScoreLabel(item);
+
+        li.append(urlEl, textEl, scoreEl);
+        container.appendChild(li);
+      }
+    }
+
+    // 5. Run the PageRank simulation once when the page loads
+    computePageRank(pages);
+
+    const form = document.getElementById("search-form");
+    const input = document.getElementById("query-input");
+    const resultsSection = document.getElementById("results");
+    const oldList = document.getElementById("old-results");
+    const pageRankList = document.getElementById("pagerank-results");
+
+    // 6. Handle search form submission
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const word = input.value.trim().toLowerCase();
+
+      if (!word) {
+        resultsSection.hidden = true;
+        return;
+      }
+
+      // Find pages whose text contains the word
+      const matches = [];
+      for (const page of pages) {
+        const count = countWord(page.text, word);
+        if (count > 0) {
+          matches.push({ page, count });
+        }
+      }
+
+      // Left column: sort by word count (highest first)
+      const oldSorted = [...matches].sort((a, b) => b.count - a.count);
+
+      // Right column: sort by PageRank (highest first)
+      const pageRankSorted = [...matches].sort((a, b) => b.page.pageRank - a.page.pageRank);
+
+      renderCards(oldList, oldSorted, (item) => {
+        const label = item.count === 1 ? "match" : "matches";
+        return `Score: ${item.count} ${label}`;
+      });
+
+      renderCards(pageRankList, pageRankSorted, (item) => {
+        return `PageRank: ${item.page.pageRank.toFixed(1)}%`;
+      });
+
+      resultsSection.hidden = false;
+    });
+  </script>
+</body>
+</html>
