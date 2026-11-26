@@ -15,6 +15,12 @@
 
 ---
 
+## Live URL
+
+Try **Mini Google 1998** live in your browser: **https://minigoogle1998.netlify.app/**
+
+---
+
 ## Old Way vs. PageRank Way
 
 Search for **`pizza`** and watch two ranking algorithms compete side by side:
